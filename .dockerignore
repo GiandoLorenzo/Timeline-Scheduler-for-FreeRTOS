@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+*.pem
+*.key
+private/
+tmp/
+artifacts/
+**/Output/
+**/__pycache__/
+.vscode/

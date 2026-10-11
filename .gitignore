@@ -1,0 +1,73 @@
+# Build outputs
+build/
+*.o
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.su
+
+# Debug files
+*.dSYM/
+*.dwarf
+
+.directory
+
+
+# SE STATE USANDO UN ALTRO IDE TOGLIETE I COMMENTI!!
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+
+
+# Eclipse
+#.project
+#.cproject
+#.settings/
+
+# CLion / JetBrains
+#.idea/
+#cmake-build-*/
+
+# Keil
+#*.uvguix.*
+#*.uvoptx
+#*.bak
+
+# IAR
+#Debug/
+#Release/
+#settings/
+# *.dep
+
+# # CMake
+# CMakeFiles/
+# CMakeCache.txt
+# cmake_install.cmake
+
+# # Logs e temp
+# *.log
+# *.tmp
+# *.temp
+
+# Local/private files and generated artifacts
+Output/
+artifacts/
+tmp/
+private/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+config.toml
+*.log
+*.tmp
+*.temp
+.idea/
+.settings/

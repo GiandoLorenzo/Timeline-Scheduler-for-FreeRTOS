@@ -1,0 +1,39 @@
+{
+    "system_name": "TimelineSystem",
+    "timeline_period": 1000,
+    "tick_rate_hz": 1000,
+    "tasks": [
+        {
+            "name": "Sensor_Read",
+            "type": "HARD",
+            "start_tick": 0,
+            "end_tick": 100,
+            "stack_size": 256,
+            "description": "Reads sensor data from hardware peripherals"
+        },
+        {
+            "name": "Data_Process",
+            "type": "SOFT",
+            "start_tick": 100,
+            "end_tick": 500,
+            "stack_size": 512,
+            "description": "Processes raw sensor data"
+        },
+        {
+            "name": "Actuator_Control",
+            "type": "HARD",
+            "start_tick": 800,
+            "end_tick": 900,
+            "stack_size": 256,
+            "description": "Updates actuator outputs"
+        },
+        {
+            "name": "System_Monitor",
+            "type": "HARD",
+            "start_tick": 900,
+            "end_tick": 1000,
+            "stack_size": 256,
+            "description": "Reports system status via UART"
+        }
+    ]
+}

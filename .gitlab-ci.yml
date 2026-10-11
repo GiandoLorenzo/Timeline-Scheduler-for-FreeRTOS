@@ -1,0 +1,100 @@
+stages:
+  - start
+  - "test0(NormalPriorityBased)"
+  - "test1(StressTest)"
+  - "test2(Edge-case)"
+  - "test3(Preemption)"
+  - "test4(TimeConsistency)"
+  - "test5(Multiple_HRT)"
+  - "test6(DeadlineViolator)"
+  - "test7(SemaphoreHandler)"
+  - "test8(Polling)"
+
+start_job:
+  stage: start
+  script:
+    - mkdir -p artifacts
+    - echo "start ok" > artifacts/start.txt
+  artifacts:
+    when: always
+    paths: [artifacts/]
+
+.test_template:
+  script:
+    - set -e
+    - mkdir -p artifacts
+    - make -C DemoTest clean
+    - make -C DemoTest all EXTRA_CFLAGS="-DTEST_NUMBER=${TEST_NUMBER}"
+    - python3 Tools/run_qemu_test.py --project DemoTest --test "${TEST_NUMBER}"
+    - cat "artifacts/test${TEST_NUMBER}.log"
+    - grep -q "^TEST_RESULT ${TEST_NUMBER} PASS" "artifacts/test${TEST_NUMBER}.log"
+    - echo "TEST ${TEST_NUMBER} PASSED" > "artifacts/test${TEST_NUMBER}.txt"
+  artifacts:
+    when: always
+    paths: [artifacts/]
+
+
+.test_template_priority:
+  script:
+    - set -e
+    - mkdir -p artifacts
+    - make -C DemoPriority clean
+    - make -C DemoPriority all
+    - python3 Tools/run_qemu_test.py --project DemoPriority --test 0
+    - grep -q "^TEST_RESULT 0 PASS" "artifacts/test0.log"
+    - echo "TEST PRIOTIY PASSED" > "artifacts/test_priority.txt"
+  artifacts:
+    when: always
+    paths: [artifacts/]
+
+"test0(NormalPriorityBased)_job":
+  stage: "test0(NormalPriorityBased)"
+  extends: .test_template_priority
+
+"test1(StressTest)_job":
+  stage: "test1(StressTest)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "1"
+
+"test2(Edge-case)_job":
+  stage: "test2(Edge-case)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "2"
+
+"test3(Preemption)_job":
+  stage: "test3(Preemption)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "3"
+
+"test4(TimeConsistency)_job":
+  stage: "test4(TimeConsistency)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "4"
+
+"test5(Multiple_HRT)_job":
+  stage: "test5(Multiple_HRT)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "5"
+
+"test6(DeadlineViolator)_job":
+  stage: "test6(DeadlineViolator)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "6"
+
+"test7(SemaphoreHandler)_job":
+  stage: "test7(SemaphoreHandler)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "7"
+
+"test8(Polling)_job":
+  stage: "test8(Polling)"
+  extends: .test_template
+  variables:
+    TEST_NUMBER: "8"
